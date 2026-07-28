@@ -3,6 +3,7 @@ import numpy as np
 import time
 import threading
 import datetime
+from detector import ImpactDetector
 
 # Configuration
 CHANNELS = 1
@@ -10,7 +11,7 @@ RATE = 44100
 CHUNK = 1024  # ~23ms per chunk
 
 # DSP Configuration
-PEAK_THRESHOLD = 15000  # High amplitude threshold to ignore typing and vocals
+PEAK_THRESHOLD = 100  # High amplitude threshold to ignore typing and vocals
 QUIET_THRESHOLD = 3000  # Maximum amplitude considered "quiet"
 COOLDOWN_SEC = 0.75  # 750ms cooldown
 
@@ -29,12 +30,13 @@ FIR_KERNEL = np.array([
 class AudioListener:
     def __init__(self, callback):
         self.callback = callback
+        self.detector = ImpactDetector()
         self.running = False
         self.stream = None
-        self.last_trigger_time = 0
+        # self.last_trigger_time = 0
         
-        history_size = 5
-        self.peak_history = [0] * history_size
+        # history_size = 5
+        # self.peak_history = [0] * history_size
         
         # Keep track of the last len(FIR_KERNEL)-1 samples from the previous chunk
         # so we can use np.convolve with mode='valid' seamlessly across chunks.
@@ -67,22 +69,31 @@ class AudioListener:
                 # Update overlap buffer with the end of the current chunk
                 self.overlap_buffer = audio_data[-(len(FIR_KERNEL) - 1):]
                 
-                current_peak = np.max(np.abs(filtered_data))
+                # current_peak = np.max(np.abs(filtered_data))
                 
-                self.peak_history.pop(0)
-                self.peak_history.append(current_peak)
+                # self.peak_history.pop(0)
+                # self.peak_history.append(current_peak)
 
-                now = time.time()
-                if now - self.last_trigger_time < COOLDOWN_SEC:
-                    return
+                # now = time.time()
+                # if now - self.last_trigger_time < COOLDOWN_SEC:
+                #     return
 
-                is_clipping = current_peak > PEAK_THRESHOLD
-                was_quiet = all(p < QUIET_THRESHOLD for p in self.peak_history[:-2])
+                # is_clipping = current_peak > PEAK_THRESHOLD
+                # was_quiet = all(p < QUIET_THRESHOLD for p in self.peak_history[:-2])
 
-                if is_clipping and was_quiet:
-                    self.last_trigger_time = now
-                    self.log(f"TRIGGERED! Peak: {current_peak:.2f}")
-                    threading.Thread(target=self.callback, daemon=True).start()
+                # if is_clipping and was_quiet:
+                #     self.last_trigger_time = now
+                #     self.log(f"TRIGGERED! Peak: {current_peak:.2f}")
+                #     threading.Thread(target=self.callback, daemon=True).start()
+
+                if self.detector.process(filtered_data):
+                  print("Detected")
+                  self.log("TRIGGERED!")
+
+                  threading.Thread(
+                        target=self.callback,
+                        daemon=True
+                  ).start()
 
             try:
                 self.stream = sd.InputStream(samplerate=RATE, channels=CHANNELS, dtype='int16', blocksize=CHUNK, callback=audio_callback)
