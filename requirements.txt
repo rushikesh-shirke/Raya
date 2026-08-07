@@ -6,3 +6,4 @@ Pillow
 PyAudio==0.2.14
 SpeechRecognition==3.17.0
 
+ollama
