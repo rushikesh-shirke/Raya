@@ -1,3 +1,5 @@
+from tts import say
+from assistant import Assistant
 import speech_recognition as sr
 
 
@@ -5,6 +7,7 @@ class VoiceListener:
     def __init__(self):
         self.recognizer = sr.Recognizer()
         self.microphone = sr.Microphone(device_index=1)
+        self.assistant = Assistant()
 
     def listen_once(self):
         print("\nImpactFX: Listening...")
@@ -26,7 +29,15 @@ class VoiceListener:
 
         try:
             text = self.recognizer.recognize_google(audio)
-            print(f"You: {text}")
+
+            print(f"\nYou: {text}") 
+
+            response = self.assistant.respond(text)
+
+            if response:
+                print(f"Assistant: {response}\n")
+                say(response)
+
             return text
 
         except sr.UnknownValueError:
