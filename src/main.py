@@ -9,9 +9,9 @@ else:
 
 os.chdir(application_path)
 
-from audio_listener import AudioListener
-from playback import PlaybackManager
-from system_tray import SystemTrayApp
+from audio.audio_listener import AudioListener
+from core.playback import PlaybackManager
+from ui.system_tray import SystemTrayApp
 
 def main():
     print(f"Starting Smash from {os.getcwd()}...")
