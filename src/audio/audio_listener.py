@@ -3,7 +3,7 @@ import numpy as np
 import time
 import threading
 import datetime
-from detector import ImpactDetector
+from audio.detector import ImpactDetector
 
 # Configuration
 CHANNELS = 1
