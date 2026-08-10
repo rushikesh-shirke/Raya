@@ -1,5 +1,5 @@
-from tts import say
-from assistant import Assistant
+from audio.text_to_speech import say
+from ai.assistant import Assistant
 import speech_recognition as sr
 
 
