@@ -14,7 +14,7 @@ from core.playback import PlaybackManager
 from ui.system_tray import SystemTrayApp
 
 def main():
-    print(f"Starting Smash from {os.getcwd()}...")
+    print(f"Starting Raya from {os.getcwd()}...")
     
     # Initialize components
     playback_manager = PlaybackManager(base_dir="assets")
@@ -29,7 +29,7 @@ def main():
     tray_app = SystemTrayApp(playback_manager, listener)
     tray_app.run()
     
-    print("Smash exited.")
+    print("Raya exited.")
 
 if __name__ == "__main__":
     main()
