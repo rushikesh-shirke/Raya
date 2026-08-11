@@ -1,6 +1,6 @@
-# Smash 💥
+# Raya 💥
 
-Smash is a background Windows utility that listens to your laptop's internal microphone and detects when you physically strike or slap the laptop chassis, playing a customized audio reaction while completely ignoring human speech and background noise.
+Raya is a background Windows utility that listens to your laptop's internal microphone and detects when you physically strike or slap the laptop chassis, playing a customized audio reaction while completely ignoring human speech and background noise.
 
 ## Features
 - **Intelligent DSP Filtering:** Uses a 3000Hz High-Pass Filter and rolling amplitude envelopes to specifically isolate structure-borne noise (slaps) from airborne noise (talking).
@@ -14,7 +14,7 @@ Smash is a background Windows utility that listens to your laptop's internal mic
 3. Place an icon for the system tray as `assets/icon.png`.
 4. Double click `build.bat` to compile this project into a standalone executable.
 5. Run `scripts/install.bat` as Administrator to automatically start the app silently every time Windows boots.
-6. Or else you can run 'Smash.exe' to manually start the app everytime.
+6. Or else you can run 'Raya.exe' to manually start the app everytime.
 
 ## Adjusting Sensitivity
 If you find that the app triggers when typing, or fails to trigger when slapped, you can adjust the DSP thresholds in `src/audio_listener.py`:
