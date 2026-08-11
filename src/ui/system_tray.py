@@ -68,5 +68,5 @@ class SystemTrayApp:
     def run(self):
         image = self._get_image()
         menu = self.create_menu()
-        self.icon = pystray.Icon("Smash", image, "Smash \U0001F4A5", menu)
+        self.icon = pystray.Icon("Raya", image, "raya \U0001F4A5", menu)
         self.icon.run()

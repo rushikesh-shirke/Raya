@@ -44,7 +44,7 @@ class AudioListener:
 
     def log(self, msg):
         try:
-            with open("smash_debug.log", "a") as f:
+            with open("raya_debug.log", "a") as f:
                 f.write(f"[{datetime.datetime.now().isoformat()}] {msg}\n")
         except:
             pass

@@ -1,7 +1,7 @@
 """
 detector.py
 
-Impact detection engine for ImpactFX.
+Impact detection engine for Raya.
 
 This module contains ONLY the detection algorithm.
 It does not know anything about microphones, pygame,
