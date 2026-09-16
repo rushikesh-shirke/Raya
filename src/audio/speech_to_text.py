@@ -10,7 +10,7 @@ class VoiceListener:
         self.assistant = Assistant()
 
     def listen_once(self):
-        print("\nImpactFX: Listening...")
+        print("\nRaya: Listening...")
 
         with self.microphone as source:
             self.recognizer.adjust_for_ambient_noise(source, duration=0.5)
@@ -22,10 +22,10 @@ class VoiceListener:
                     phrase_time_limit=10
                 )
             except sr.WaitTimeoutError:
-                print("ImpactFX: No speech detected.")
+                print("Raya: No speech detected.")
                 return None
 
-        print("ImpactFX: Recognizing...")
+        print("Raya: Recognizing...")
 
         try:
             text = self.recognizer.recognize_google(audio)
@@ -41,11 +41,11 @@ class VoiceListener:
             return text
 
         except sr.UnknownValueError:
-            print("ImpactFX: I couldn't understand that.")
+            print("Raya: I couldn't understand that.")
             return None
 
         except sr.RequestError as error:
-            print(f"ImpactFX: Speech recognition error: {error}")
+            print(f"Raya: Speech recognition error: {error}")
             return None
 
 
@@ -57,5 +57,5 @@ if __name__ == "__main__":
             listener.listen_once()
 
         except KeyboardInterrupt:
-            print("\nImpactFX: Stopped.")
+            print("\nRaya: Stopped.")
             break

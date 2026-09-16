@@ -28,8 +28,9 @@ FIR_KERNEL = np.array([
 ], dtype=np.float32)
 
 class AudioListener:
-    def __init__(self, callback):
+    def __init__(self, callback, audio_callback=None):
         self.callback = callback
+        self.audio_callback = audio_callback
         self.detector = ImpactDetector()
         self.running = False
         self.stream = None
@@ -44,7 +45,7 @@ class AudioListener:
 
     def log(self, msg):
         try:
-            with open("smash_debug.log", "a") as f:
+            with open("raya_debug.log", "a") as f:
                 f.write(f"[{datetime.datetime.now().isoformat()}] {msg}\n")
         except:
             pass
@@ -59,6 +60,9 @@ class AudioListener:
                     self.log(f"Stream status: {status}")
                 
                 audio_data = indata[:, 0].astype(np.float32)
+
+                if self.audio_callback:
+                    self.audio_callback(audio_data)
 
                 # Prepend the overlap buffer from the previous chunk
                 padded_data = np.concatenate((self.overlap_buffer, audio_data))
