@@ -28,8 +28,9 @@ FIR_KERNEL = np.array([
 ], dtype=np.float32)
 
 class AudioListener:
-    def __init__(self, callback):
+    def __init__(self, callback, audio_callback=None):
         self.callback = callback
+        self.audio_callback = audio_callback
         self.detector = ImpactDetector()
         self.running = False
         self.stream = None
@@ -59,6 +60,12 @@ class AudioListener:
                     self.log(f"Stream status: {status}")
                 
                 audio_data = indata[:, 0].astype(np.float32)
+
+                if self.audio_callback:
+                    try:
+                        self.audio_callback(audio_data)
+                    except Exception as e:
+                        self.log(f"Audio callback failed: {e}")
 
                 # Prepend the overlap buffer from the previous chunk
                 padded_data = np.concatenate((self.overlap_buffer, audio_data))

@@ -1,5 +1,6 @@
 import os
 import sys
+from audio.audio_router import AudioRouter
 
 # Ensure the working directory is the one containing the assets, even when run via pyinstaller or from another location
 if getattr(sys, 'frozen', False):
@@ -15,12 +16,15 @@ from ui.system_tray import SystemTrayApp
 
 def main():
     print(f"Starting Raya from {os.getcwd()}...")
-    
+
+    #Initialize the AudioRouter
+    audio_router = AudioRouter()
+
     # Initialize components
     playback_manager = PlaybackManager(base_dir="assets")
     
     # We pass the playback_manager.play_reaction method as the callback for the DSP listener
-    listener = AudioListener(callback=playback_manager.play_reaction)
+    listener = AudioListener(callback=playback_manager.play_reaction, audio_callback = audio_router.process)
     
     # Start listening
     listener.start()
